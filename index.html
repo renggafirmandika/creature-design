@@ -49,18 +49,18 @@ img{-webkit-user-drag:none;user-select:none}
 
 /* ───────── Stage (horizontal) ───────── */
 .stage{flex:1 1 0;min-height:0;position:relative;overflow:hidden;background:#fff}
-.stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:var(--gh,100%);pointer-events:none;
   background-image:linear-gradient(90deg,rgba(74,71,65,.08) 1px,transparent 1px),linear-gradient(180deg,rgba(74,71,65,.08) 1px,transparent 1px);
   background-size:44px 44px;background-position:var(--gx,0px) 0}
 .track{position:absolute;inset:0;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
 .track.drag{cursor:grabbing}
 .ground{position:absolute;left:0;right:0;height:1px;background:rgba(74,71,65,.28);pointer-events:none}
-.ground::after{content:"";position:absolute;left:0;right:0;top:1px;height:90px;background:linear-gradient(180deg,rgba(74,71,65,.10),transparent)}
 
+.barb{position:absolute;left:0;right:0;bottom:0;background:var(--canvas);z-index:5;pointer-events:none}
 .head-t{position:absolute;left:0;right:0;top:22px;text-align:center;padding:0 24px;pointer-events:none;z-index:3}
 .head-t h1{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(32px,5vw,54px);letter-spacing:1px;text-transform:uppercase;line-height:1.05}
 .head-t p{max-width:640px;margin:10px auto 0;color:var(--stone);font-size:clamp(15px,1.6vw,18px);line-height:1.5}
-.head-t .meta{margin-top:8px;font-size:13px;color:var(--ash)}
+.head-t .meta{margin-top:6px;font-size:13px;color:var(--ash)}
 .head-t.swap{animation:fadein .45s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
@@ -94,15 +94,15 @@ img{-webkit-user-drag:none;user-select:none}
 .dim.h span{left:50%;top:16px;transform:translateX(-50%)}
 
 /* ───────── Controls ───────── */
-.navbtn{position:absolute;bottom:28px;width:58px;height:58px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6;color:var(--ink)}
+.navbtn{position:absolute;bottom:22px;width:52px;height:52px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6;color:var(--ink)}
 .navbtn[disabled]{opacity:.35;cursor:default}
 .navbtn.prev{left:32px}
 .navbtn.next{right:32px}
-.cmpb{position:absolute;bottom:28px;right:104px;height:58px;padding:0 22px;border-radius:14px;border:1px solid var(--hairline);background:var(--surface);font-size:16px;color:var(--ink);box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6}
+.cmpb{position:absolute;bottom:22px;right:96px;height:52px;padding:0 22px;border-radius:14px;border:1px solid var(--hairline);background:var(--surface);font-size:16px;color:var(--ink);box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6}
 .cmpb[disabled]{opacity:.35;cursor:default}
 .infob{position:absolute;top:20px;right:24px;width:48px;height:48px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6}
 .infob[disabled]{opacity:.35;cursor:default}
-.tl{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);display:flex;align-items:center;z-index:6;max-width:calc(100% - 340px);overflow-x:auto;padding:0 4px}
+.tl{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;align-items:center;z-index:6;max-width:calc(100% - 340px);overflow-x:auto;padding:0 4px}
 .tl::before{content:"";position:absolute;left:12px;right:12px;top:50%;height:1px;background:var(--silver)}
 .tl .dot{position:relative;flex:none;width:24px;height:28px;border:0;background:transparent;padding:0}
 .tl .dot::after{content:"";position:absolute;left:8px;top:10px;width:8px;height:8px;border-radius:50%;background:var(--stone)}
@@ -159,15 +159,24 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
 
 /* ───────── Responsive ───────── */
 @media (max-width:900px){
-  .topbar{padding:10px 16px}
-  .logo span{font-size:24px}
-  .tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;order:3}
-  .search{width:100%;order:4}
-  .navbtn{width:50px;height:50px;bottom:20px}
-  .navbtn.prev{left:16px}.navbtn.next{right:16px}
-  .cmpb{height:50px;bottom:20px;right:76px;padding:0 14px;font-size:14px}
-  .tl{bottom:88px;max-width:calc(100% - 24px)}
-  .infob{top:12px;right:12px;width:40px;height:40px}
+  body{height:100dvh}
+  .topbar{padding:8px 14px;min-height:0;gap:8px 10px}
+  .logo svg{width:26px;height:26px}
+  .logo span{font-size:22px}
+  .filters{order:2}
+  .filters summary.pill{height:40px;padding:0 16px}
+  .search{width:100%;order:3;height:40px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;order:4}
+  .tabs .pill{height:36px;padding:0 14px;flex:none}
+  .filters .pop{width:min(300px,calc(100vw - 28px))}
+  .navbtn{width:46px;height:46px;bottom:14px}
+  .navbtn.prev{left:14px}.navbtn.next{right:14px}
+  .cmpb{height:46px;bottom:14px;right:68px;padding:0 14px;font-size:14px;border-radius:12px}
+  .tl{bottom:66px;max-width:calc(100% - 20px)}
+  .infob{top:10px;right:12px;width:40px;height:40px}
+  .head-t{top:14px;padding:0 58px}
+  .head-t p{margin-top:6px;font-size:15px}
+  .head-t .meta{font-size:12px}
   .panel{top:auto;left:0;right:0;bottom:0;width:auto;height:42vh;border:1px solid var(--hairline);border-bottom:0;border-radius:24px 24px 0 0;padding:6px 20px 20px;transform:translateY(110%);box-shadow:none;transition:transform .25s,visibility 0s .25s}
   .panel.open{transform:none}
   .panel.tall{height:88vh}
@@ -177,6 +186,7 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
   .cmp{padding:20px 16px}
   .cmp .cdata{grid-template-columns:1fr}
 }
+@media (max-width:600px){.tabs{display:none}}
 @media (min-width:901px){.sheet-handle{display:none}}
 @media (prefers-reduced-motion:reduce){
   .panel,.slide .art,.slide .hv,.slide .card,.dim{transition:none}
@@ -228,6 +238,7 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
     <div id="slides"></div>
   </div>
   <div class="head-t" id="headT" aria-live="polite"></div>
+  <div class="barb" id="barb" aria-hidden="true"></div>
 
   <button class="infob" id="infoB" aria-label="Show details">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>
@@ -267,15 +278,15 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
  {"id":"spyro","name":"Spyro","category":"dragons","franchise":"Spyro the Dragon","creator":"Insomniac Games","medium":["game"],"year":1998,
   "description":"A young purple dragon from the Spyro games.","image":"art/live/dragons/spyro.webp","measure":{"topPct":20.5,"bottomPct":100},"aspect":1.27,"defaultSize":0,"artistNote":"",
   "sizes":[{"label":"Fan estimate","short":"Fan estimate","dimension":"height","heightBasis":"reported","meters":1,"confidence":"low","sourceUrl":null,"note":"Fan estimate. No official figure."}]},
- {"id":"dragonite","name":"Dragonite","category":"dragons","franchise":"Pokémon","creator":"Game Freak / Nintendo","medium":["game","anime"],"year":1996,
-  "description":"A gentle, flying Dragon-type Pokémon.","image":null,"aspect":0.9,"defaultSize":0,"artistNote":"",
-  "sizes":[{"label":"Official Pokédex","short":"Pokédex","dimension":"height","heightBasis":"reported","meters":2.2,"confidence":"high","sourceUrl":null,"note":"Official: stated in the Pokédex."}]},
  {"id":"toothless","name":"Toothless","category":"dragons","franchise":"How to Train Your Dragon","creator":"DreamWorks / Cressida Cowell","medium":["film","novel"],"year":2010,
   "description":"A Night Fury and the companion of Hiccup.","image":"art/live/dragons/toothless.webp","measure":{"topPct":10.7,"bottomPct":100},"aspect":1.5,"defaultSize":0,"artistNote":"",
   "sizes":[{"label":"Shoulder height, fan wiki","short":"Fan wiki","dimension":"height","heightBasis":"reported","meters":1.75,"length":7.9,"wingspan":13.7,"confidence":"low","sourceUrl":null,"note":"Shoulder height from a fan wiki. No official figure."}]},
- {"id":"horntail","name":"Hungarian Horntail","category":"dragons","franchise":"Harry Potter","creator":"J.K. Rowling","medium":["novel","film"],"year":2000,
-  "description":"The most dangerous dragon breed faced in the Triwizard Tournament.","image":null,"aspect":0.34,"defaultSize":0,"artistNote":"",
-  "sizes":[{"label":"Series canon","short":"Series canon","dimension":"length","heightBasis":"pending","meters":15,"confidence":"medium","sourceUrl":null,"note":"Stated in the series. Verify wording."}]},
+ {"id":"dragapult","name":"Dragapult","category":"dragons","franchise":"Pokémon","creator":"Game Freak / Nintendo","medium":["game","anime"],"year":2019,
+  "description":"A stealth-bomber-shaped Dragon/Ghost Pokémon that launches the Dreepy living in its horns at Mach speeds.","image":"art/live/dragons/dragapult.webp","measure":{"topPct":0,"bottomPct":100},"aspect":1,"defaultSize":0,"artistNote":"",
+  "sizes":[{"label":"Pokédex height","short":"Pokédex","dimension":"height","heightBasis":"reported","meters":3.0,"confidence":"medium","sourceUrl":"https://pokemondb.net/pokedex/Dragapult","note":"Hovering pose with no ground contact, so the drawing is measured top of horns to bottom of tail. Pokédex measuring method unconfirmed."}]},
+ {"id":"hungarian-horntail","name":"Hungarian Horntail","category":"dragons","franchise":"Harry Potter","creator":"J.K. Rowling","medium":["novel","film"],"year":2000,
+  "description":"The most aggressive dragon breed in the series, faced by Harry in the first task of the Triwizard Tournament.","image":"art/live/dragons/hungarian-horntail.webp","imageKind":"showcase","measure":{"topPct":54,"bottomPct":99},"scale":"provisional","aspect":1.5,"defaultSize":0,"artistNote":"",
+  "sizes":[{"label":"Estimate from film scenes","short":"Film estimate","dimension":"height","heightBasis":"estimate","meters":4,"rangeMeters":[3,6],"confidence":"low","sourceUrl":null,"note":"No canon size found. An earlier 50 ft figure may actually be flame range."}]},
  {"id":"smaug","name":"Smaug","category":"dragons","franchise":"The Hobbit","creator":"J.R.R. Tolkien","medium":["novel","film"],"year":1937,
   "description":"The last great fire-drake of Middle-earth, who hoards the treasure of the Lonely Mountain.","image":null,"aspect":0.32,"defaultSize":0,"artistNote":"",
   "sizes":[
@@ -311,7 +322,7 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 /* Measurement standard (see README §5): the only value that drives scale is standing height.
    An entry is on the scale only when EVERY size is a height marked "reported" or "derived".
    Anything still in its original metric (heightBasis "pending") stays in the data but off the scale. */
-const onScale = c => c.sizes.length > 0 && c.sizes.every(s => s.dimension === 'height' && (s.heightBasis === 'reported' || s.heightBasis === 'derived'));
+const onScale = c => c.sizes.length > 0 && c.sizes.every(s => s.dimension === 'height' && ['reported','derived','estimate'].includes(s.heightBasis));
 const MEASURED = DATA.filter(onScale).sort((a, b) => a.sizes[a.defaultSize].meters - b.sizes[b.defaultSize].meters);
 const SPECIAL  = DATA.filter(c => !c.sizes.length);
 const IN_LINEUP = new Set([...MEASURED, ...SPECIAL].map(c => c.id));
@@ -405,7 +416,7 @@ function buildSlides(){
 function focusScale(i){
   while (i > 0 && kind(items[i]) === 'special') i--;
   const [wm, hm] = dimsOf(items[i]);
-  return Math.min(0.6 * ctx.W / wm, ctx.maxH / hm);
+  return Math.min((ctx.narrow ? 0.7 : 0.6) * ctx.W / wm, ctx.maxH / hm);
 }
 function pxSize(c, sc){
   if (kind(c) === 'special') return [Math.min(380, ctx.W * 0.8), Math.min(300, ctx.maxH + 40)];
@@ -414,15 +425,18 @@ function pxSize(c, sc){
 }
 function layout(f){
   const n = items.length; if (!n) return;
-  const W = stage.clientWidth, H = stage.clientHeight, narrow = W < 700;
-  base = H - (narrow ? 190 : 150);
-  ctx = { W, maxH: Math.max(base - (narrow ? 170 : 190), 120) };
+  const W = stage.clientWidth, H = stage.clientHeight, narrow = W <= 900;   // same breakpoint as the CSS
+  base = H - (narrow ? 134 : 112);                  // ground line; controls live below it
+  const lift = narrow ? 22 : 36;                    // gap between the feet and the line
+  ctx = { W, narrow, lift, maxH: Math.max(base - lift - (narrow ? 150 : 132), 110) };
   ground.style.top = base + 'px';
+  $('#barb').style.top = base + 'px';
+  stage.style.setProperty('--gh', base + 'px');     // grid only above the ground
 
   f = clamp(f, 0, n - 1);
   const i = Math.floor(f), t = f - i, j = Math.min(i + 1, n - 1);
   const sc = Math.exp(Math.log(focusScale(i)) * (1 - t) + Math.log(focusScale(j)) * t);
-  const gap = clamp(W * 0.12, 60, 160);
+  const gap = clamp(W * 0.05, 24, 72);
 
   let x = 0;
   const g = items.map(c => { const [w, h] = pxSize(c, sc); const o = { w, h, left: x }; x += w + gap; return o; });
@@ -434,7 +448,7 @@ function layout(f){
     const el = slideEls[k], o = g[k], sx = o.left + shift;
     if (sx > W + 300 || sx + o.w < -300){ el.style.display = 'none'; return; }
     el.style.display = '';
-    let y = base - o.h;
+    let y = base - ctx.lift - o.h;
     if (c.measure) y += o.h * (100 - c.measure.bottomPct) / 100;   // keep the measured feet on the ground
     el.style.width = o.w + 'px'; el.style.height = o.h + 'px';
     el.style.transform = `translate(${sx.toFixed(1)}px,${y.toFixed(1)}px)`;
@@ -463,12 +477,12 @@ function renderHead(){
     desc = 'Every creature here is drawn to the same scale as you. Scroll, drag or press → to meet them.';
     meta = 'Standing 1.7 m tall';
   } else if (k === 'special'){
-    desc = c.qualitative; meta = c.franchise;
+    desc = ''; meta = c.franchise;      // the card itself carries the qualitative text
   } else {
     const s = sizeOf(c);
-    desc = c.description; meta = `${c.franchise} · ${fmtM(s.meters)} standing height · ${s.label}`;
+    desc = ''; meta = `${c.franchise} · ${fmtM(s.meters)} standing height · ${s.label}`;   // description lives in the details panel
   }
-  h.innerHTML = `<h1>${esc(title)}</h1><p>${esc(desc)}</p><div class="meta">${esc(meta)}</div>`;
+  h.innerHTML = `<h1>${esc(title)}</h1>${desc ? `<p>${esc(desc)}</p>` : ''}<div class="meta">${esc(meta)}</div>`;
   if (!reduceMotion){ h.classList.remove('swap'); void h.offsetWidth; h.classList.add('swap'); }
 }
 
@@ -581,13 +595,14 @@ function renderPanel(){
     const idx = state.size[c.id] ?? c.defaultSize, s = c.sizes[idx], cf = CONF[s.confidence];
     const others = c.sizes.filter((_, i) => i !== idx).map(o => `${esc(o.label)}: ${fmtM(o.meters)} tall`).join('; ');
     const extra = [s.length && `Length ${fmtM(s.length)}`, s.wingspan && `Wingspan ${fmtM(s.wingspan)}`].filter(Boolean).join(' · ');
-    const basis = s.heightBasis === 'derived' ? 'Height derived from proportions · confidence lowered one level' : 'Height reported by source';
+    const basis = s.heightBasis === 'derived' ? 'Height derived from proportions · confidence lowered one level' : s.heightBasis === 'estimate' ? 'Height is an estimate, not a stated figure' : 'Height reported by source';
+    const range = s.rangeMeters ? `Likely range ${fmtM(s.rangeMeters[0])} to ${fmtM(s.rangeMeters[1])}. ` : '';
     body = (c.sizes.length > 1 ? `<div class="seg" role="group" aria-label="Size version">${c.sizes.map((o, i) =>
         `<button data-size="${i}" aria-pressed="${i === idx}">${esc(o.short)}</button>`).join('')}</div>` : '') +
       `<div class="sizecard"><div class="eyebrow">Standing height · ${esc(s.label)}</div>
         <div class="big"><span class="num">${Number(s.meters.toFixed(1))}</span><span class="unit">m tall</span></div>
         <span class="badge ${s.confidence}"><i aria-hidden="true">${cf[0]}</i>${cf[1]} confidence</span>
-        <div class="small">${esc(basis)}. ${esc(s.note)}</div>
+        <div class="small">${esc(basis)}. ${esc(range)}${esc(s.note)}${c.scale === 'provisional' ? ' <strong>Provisional scale:</strong> the size is an estimate and the height line was placed by eye.' : ''}</div>
         ${extra ? `<div class="small"><strong>Extra info:</strong> ${extra} <em>(does not affect the scale)</em></div>` : ''}
         ${others ? `<div class="others"><strong>Other versions:</strong> ${others}</div>` : ''}</div>
       <p>${esc(c.description)}</p>
