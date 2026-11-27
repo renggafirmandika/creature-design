@@ -59,7 +59,6 @@ img{-webkit-user-drag:none;user-select:none}
 .barb{position:absolute;left:0;right:0;bottom:0;background:var(--canvas);z-index:5;pointer-events:none}
 .head-t{position:absolute;left:0;right:0;top:22px;text-align:center;padding:0 24px;pointer-events:none;z-index:3}
 .head-t h1{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(32px,5vw,54px);letter-spacing:1px;text-transform:uppercase;line-height:1.05}
-.head-t p{max-width:640px;margin:10px auto 0;color:var(--stone);font-size:clamp(15px,1.6vw,18px);line-height:1.5}
 .head-t .meta{margin-top:6px;font-size:13px;color:var(--ash)}
 .head-t.swap{animation:fadein .45s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -68,12 +67,11 @@ img{-webkit-user-drag:none;user-select:none}
 .art{flex:none;display:grid;place-items:center;padding:0;border:1.5px dashed var(--ash);border-radius:14px;background:repeating-linear-gradient(135deg,rgba(74,71,65,.07) 0 8px,transparent 8px 16px);overflow:hidden;color:var(--stone)}
 .art img{width:100%;height:100%;object-fit:contain;display:block}
 .art .ph{font-size:11px;font-weight:700;letter-spacing:1px;padding:0 8px;text-align:center}
-.slide .art,.slide .hv,.slide .card{width:100%;height:100%;cursor:pointer}
+.slide .art,.slide .card{width:100%;height:100%;cursor:pointer}
 .slide .art.has-img{border:0;background:none;border-radius:0;overflow:visible}
-.slide .hv{display:block;cursor:default}
 /* Not in focus: black and white. In focus: full colour. */
-.slide .art,.slide .hv,.slide .card{filter:grayscale(1);opacity:.55;transition:filter .7s ease,opacity .7s ease}
-.slide.on .art,.slide.on .hv,.slide.on .card{filter:none;opacity:1}
+.slide .art,.slide .card{filter:grayscale(1);opacity:.55;transition:filter .7s ease,opacity .7s ease}
+.slide.on .art,.slide.on .card{filter:none;opacity:1}
 .slide.on .art.has-img{filter:drop-shadow(0 18px 18px rgba(28,27,26,.14))}
 
 .slide .card{text-align:left;background:var(--night);color:#fff;border:1.5px dashed var(--gold-pale);border-radius:32px;padding:28px;display:flex;flex-direction:column;gap:10px;justify-content:flex-end}
@@ -102,6 +100,9 @@ img{-webkit-user-drag:none;user-select:none}
 .cmpb[disabled]{opacity:.35;cursor:default}
 .infob{position:absolute;top:20px;right:24px;width:48px;height:48px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6}
 .infob[disabled]{opacity:.35;cursor:default}
+.soundb{position:absolute;top:20px;left:24px;width:48px;height:48px;border-radius:50%;border:1px solid var(--hairline);background:var(--surface);color:var(--ink);display:grid;place-items:center;box-shadow:0 2px 10px rgba(28,27,26,.08);z-index:6}
+.soundb .cross,.soundb.off .wave{display:none}
+.soundb.off .cross{display:inline}
 .tl{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;align-items:center;z-index:6;max-width:calc(100% - 340px);overflow-x:auto;padding:0 4px}
 .tl::before{content:"";position:absolute;left:12px;right:12px;top:50%;height:1px;background:var(--silver)}
 .tl .dot{position:relative;flex:none;width:24px;height:28px;border:0;background:transparent;padding:0}
@@ -174,8 +175,8 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
   .cmpb{height:46px;bottom:14px;right:68px;padding:0 14px;font-size:14px;border-radius:12px}
   .tl{bottom:66px;max-width:calc(100% - 20px)}
   .infob{top:10px;right:12px;width:40px;height:40px}
+  .soundb{top:10px;left:12px;width:40px;height:40px}
   .head-t{top:14px;padding:0 58px}
-  .head-t p{margin-top:6px;font-size:15px}
   .head-t .meta{font-size:12px}
   .panel{top:auto;left:0;right:0;bottom:0;width:auto;height:42vh;border:1px solid var(--hairline);border-bottom:0;border-radius:24px 24px 0 0;padding:6px 20px 20px;transform:translateY(110%);box-shadow:none;transition:transform .25s,visibility 0s .25s}
   .panel.open{transform:none}
@@ -189,7 +190,7 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
 @media (max-width:600px){.tabs{display:none}}
 @media (min-width:901px){.sheet-handle{display:none}}
 @media (prefers-reduced-motion:reduce){
-  .panel,.slide .art,.slide .hv,.slide .card,.dim{transition:none}
+  .panel,.slide .art,.slide .card,.dim{transition:none}
   .head-t.swap{animation:none}
 }
 </style>
@@ -240,6 +241,9 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
   <div class="head-t" id="headT" aria-live="polite"></div>
   <div class="barb" id="barb" aria-hidden="true"></div>
 
+  <button class="soundb" id="soundB" aria-label="Sound">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16.5 9a4 4 0 010 6M19 6.5a8 8 0 010 11"/><path class="cross" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/></svg>
+  </button>
   <button class="infob" id="infoB" aria-label="Show details">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>
   </button>
@@ -272,9 +276,6 @@ dialog::backdrop{background:rgba(28,27,26,.5)}
 ────────────────────────────────────────────────────────────── -->
 <script type="application/json" id="creature-data">
 {"creatures":[
- {"id":"mushu","name":"Mushu","category":"dragons","franchise":"Mulan (Disney)","creator":"Disney","medium":["film"],"year":1998,
-  "description":"A small, fast-talking guardian dragon.","image":null,"aspect":0.9,"defaultSize":0,"artistNote":"",
-  "sizes":[{"label":"Fan estimate","short":"Fan estimate","dimension":"height","heightBasis":"reported","meters":1,"confidence":"low","sourceUrl":null,"note":"Fan estimate. No official figure."}]},
  {"id":"spyro","name":"Spyro","category":"dragons","franchise":"Spyro the Dragon","creator":"Insomniac Games","medium":["game"],"year":1998,
   "description":"A young purple dragon from the Spyro games.","image":"art/live/dragons/spyro.webp","measure":{"topPct":20.5,"bottomPct":100},"aspect":1.27,"defaultSize":0,"artistNote":"",
   "sizes":[{"label":"Fan estimate","short":"Fan estimate","dimension":"height","heightBasis":"reported","meters":1,"confidence":"low","sourceUrl":null,"note":"Fan estimate. No official figure."}]},
@@ -335,8 +336,7 @@ function fmtM(m){
   return Number(m.toFixed(1)) + ' m';
 }
 const dimWord = d => d === 'height' ? 'tall' : 'long';
-const HUMAN = { human:true, id:'human', name:'You, for scale', m:1.7, aspect:20/51 };
-const kind = c => c.human ? 'human' : c.sizes.length ? 'creature' : 'special';
+const kind = c => c.sizes.length ? 'creature' : 'special';
 
 /* Size of a creature's picture box in metres: [width, height]. */
 function dims(c, s){
@@ -350,7 +350,7 @@ function dims(c, s){
   }
   return s.dimension === 'height' ? [s.meters * c.aspect, s.meters] : [s.meters, s.meters * c.aspect];
 }
-const dimsOf = c => c.human ? [c.m * c.aspect, c.m] : dims(c, sizeOf(c));
+const dimsOf = c => dims(c, sizeOf(c));
 
 /* Load artwork so we know its real proportions. */
 DATA.forEach(c => {
@@ -376,11 +376,10 @@ const dimHtml = (dir, t, b) => `<div class="dim ${dir}"${dir === 'v' ? ` style="
 
 function buildSlides(){
   const keepId = items[Math.round(target)]?.id;
-  items = [HUMAN, ...visibleCreatures(), ...SPECIAL.filter(passes)];
+  items = [...visibleCreatures(), ...SPECIAL.filter(passes)];
 
   host.innerHTML = items.map((c, i) => {
     const k = kind(c);
-    if (k === 'human') return `<div class="slide" data-i="${i}"><div class="hv"><svg viewBox="0 0 20 51" preserveAspectRatio="xMidYMax meet" width="100%" height="100%" fill="none" stroke="#4a4741" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="5" r="4"/><path d="M10 10v21M10 14l-7 10M10 14l7 10M10 31l-6 18M10 31l6 18"/></svg></div>${dimHtml('v', 0, 0)}</div>`;
     if (k === 'special'){
       const col = c.special === 'cosmic' ? '#ced4b8' : '#ddbe78';
       return `<div class="slide" data-i="${i}"><button class="card ${c.special === 'cosmic' ? 'shen' : ''}" data-id="${c.id}" aria-pressed="false" aria-label="${esc(c.name)}. Show details.">
@@ -397,9 +396,8 @@ function buildSlides(){
 
   slideEls = [...host.children];
   slideEls.forEach((el, i) => {
-    const c = items[i], k = kind(c), sp = $('.dim span', el);
-    if (!sp) return;
-    sp.textContent = k === 'human' ? '1.7 m tall' : `${fmtM(sizeOf(c).meters)} ${dimWord(sizeOf(c).dimension)}`;
+    const c = items[i], sp = $('.dim span', el);
+    if (sp) sp.textContent = `${fmtM(sizeOf(c).meters)} ${dimWord(sizeOf(c).dimension)}`;
   });
 
   $('#tl').innerHTML = items.map((c, i) => `<button class="dot ${kind(c) === 'special' ? 'sp' : ''}" data-i="${i}" title="${esc(c.name)}" aria-label="Go to ${esc(c.name)}"></button>`).join('');
@@ -409,12 +407,17 @@ function buildSlides(){
   cur = target = idx < 0 ? 0 : idx;
   fi = -1;
   syncSelection();
+  if (!items.length){
+    $('#headT').innerHTML = '<div class="meta">No creatures match these filters.</div>';
+    ['#prevB','#nextB','#cmpB','#infoB'].forEach(q => $(q).disabled = true);
+  }
   layout(cur);
 }
 
 /* ───────── Layout: focus one item, everything else sits to its left/right ───────── */
 function focusScale(i){
   while (i > 0 && kind(items[i]) === 'special') i--;
+  if (kind(items[i]) === 'special') return 1;     // only unmeasured cards are showing
   const [wm, hm] = dimsOf(items[i]);
   return Math.min((ctx.narrow ? 0.7 : 0.6) * ctx.W / wm, ctx.maxH / hm);
 }
@@ -458,7 +461,41 @@ function layout(f){
   if (nf !== fi) setFocus(nf);
 }
 
+/* ───────── Sound: a short fire burst on each move ─────────
+   sound/fire-swipe.mp3 is a 0.35 s cut of "sound/fire sound.mp3". */
+const fx = new Audio('sound/fire-swipe.mp3');
+fx.preload = 'auto'; fx.volume = 0.6;
+let soundOn = true, unlocked = false, lastSound = 0;
+try { soundOn = localStorage.getItem('cs-sound') !== 'off'; } catch (e) {}
+function unlockAudio(){      // some browsers (iOS) need a first play inside a tap or key press
+  if (!soundOn || unlocked || !fx.paused) return;
+  unlocked = true; fx.muted = true;
+  fx.play().then(() => { if (fx.muted){ fx.pause(); fx.muted = false; } })
+           .catch(() => { unlocked = false; fx.muted = false; });
+}
+['pointerup','touchend','keydown'].forEach(t => addEventListener(t, unlockAudio, { capture:true, passive:true }));
+function playMove(){
+  if (!soundOn || performance.now() - lastSound < 120) return;
+  lastSound = performance.now();
+  fx.muted = false; fx.currentTime = 0;
+  fx.play().catch(() => {});   // blocked until the first click or key press
+}
+function renderSoundButton(){
+  const b = $('#soundB');
+  b.setAttribute('aria-pressed', String(soundOn));
+  b.title = soundOn ? 'Sound on' : 'Sound off';
+  b.classList.toggle('off', !soundOn);
+}
+$('#soundB').onclick = () => {
+  soundOn = !soundOn;
+  try { localStorage.setItem('cs-sound', soundOn ? 'on' : 'off'); } catch (e) {}
+  renderSoundButton();
+  if (soundOn) playMove(); else fx.pause();
+};
+renderSoundButton();
+
 function setFocus(k){
+  if (fi >= 0 && k !== fi) playMove();   // silent on first load and filter rebuilds
   fi = k;
   slideEls.forEach((el, i) => el.classList.toggle('on', i === k));
   dotEls.forEach((el, i) => { el.classList.toggle('on', i === k); if (i === k) el.scrollIntoView({ block:'nearest', inline:'nearest' }); });
@@ -467,22 +504,17 @@ function setFocus(k){
   $('#nextB').disabled = k >= items.length - 1;
   const c = items[k], k2 = kind(c);
   $('#cmpB').disabled = k2 !== 'creature';
-  $('#infoB').disabled = k2 === 'human';
+  $('#infoB').disabled = false;
 }
 function renderHead(){
   const c = items[fi]; if (!c) return;
   const k = kind(c), h = $('#headT');
-  let title = c.name, desc, meta = '';
-  if (k === 'human'){
-    desc = 'Every creature here is drawn to the same scale as you. Scroll, drag or press → to meet them.';
-    meta = 'Standing 1.7 m tall';
-  } else if (k === 'special'){
-    desc = ''; meta = c.franchise;      // the card itself carries the qualitative text
-  } else {
+  let meta = c.franchise;
+  if (k === 'creature'){
     const s = sizeOf(c);
-    desc = ''; meta = `${c.franchise} · ${fmtM(s.meters)} standing height · ${s.label}`;   // description lives in the details panel
+    meta = `${c.franchise} · ${fmtM(s.meters)} standing height · ${s.label}`;
   }
-  h.innerHTML = `<h1>${esc(title)}</h1>${desc ? `<p>${esc(desc)}</p>` : ''}<div class="meta">${esc(meta)}</div>`;
+  h.innerHTML = `<h1>${esc(c.name)}</h1><div class="meta">${esc(meta)}</div>`;
   if (!reduceMotion){ h.classList.remove('swap'); void h.offsetWidth; h.classList.add('swap'); }
 }
 
@@ -552,12 +584,12 @@ track.addEventListener('click', e => {
   const sl = e.target.closest('.slide'); if (!sl) return;
   const i = +sl.dataset.i, c = items[i];
   if (i !== Math.round(target)){ goTo(i); return; }
-  if (kind(c) !== 'human') select(c.id);
+  select(c.id);
 });
 $('#prevB').onclick = () => goTo(Math.round(target) - 1);
 $('#nextB').onclick = () => goTo(Math.round(target) + 1);
 $('#tl').onclick = e => { const d = e.target.closest('.dot'); if (d) goTo(+d.dataset.i); };
-$('#infoB').onclick = () => { const c = items[Math.round(target)]; if (c && !c.human) select(c.id); };
+$('#infoB').onclick = () => { const c = items[Math.round(target)]; if (c) select(c.id); };
 $('#cmpB').onclick = () => { const c = items[Math.round(target)]; if (c && kind(c) === 'creature') openCompare(c.id); };
 addEventListener('resize', () => layout(cur));
 
